@@ -1,33 +1,64 @@
 class Toowl < Formula
   desc "GPU-accelerated terminal with Claude Code integration (the Claude Feather)"
   homepage "https://toowl.dev"
-  version "1.0.0"
+  version "1.11.4"
   license "Apache-2.0"
 
-  # URLs point at the release artifacts produced by
-  # .github/workflows/release.yml. Each release uploads:
-  #   toowl-universal-apple-darwin.tar.gz        (arm64+x86_64 lipo'd)
+  # Linux ships prebuilt binaries from .github/workflows/release.yml. Each
+  # release uploads:
   #   toowl-x86_64-unknown-linux-gnu.tar.gz
   #   toowl-aarch64-unknown-linux-gnu.tar.gz
   #   SHA256SUMS                                (consumed below)
+  #
+  # macOS has NO prebuilt binary this release — the macOS CI build is gated
+  # off (decision 2026-06-12) — so the macOS path builds from source off the
+  # tagged GitHub source tarball. Signed/notarized prebuilt macOS = follow-up.
   #
   # The release workflow regenerates SHA256SUMS on every tag — the
   # update-formula job (see homebrew/README.md) rewrites the sha256
   # lines below in this file using those values, then opens a PR to
   # the homebrew-tap repo.
 
+  # Artifacts come from dl.toowl.dev, not github.com. The toowl repo is
+  # private, so every github.com/1martianway/toowl/... URL 404s for anyone
+  # outside the org — which is exactly what made `brew install` impossible
+  # even though the tap itself is public. The gateway holds a read-only token
+  # and serves the same bytes; source stays private, binaries do not.
+
+  on_macos do
+    # No macOS artifact has ever been published: publish-macos failed on every
+    # release because toowl-app declared a git dependency on the private
+    # toowl-pro repo and a clean runner could not authenticate to resolve it.
+    # Fixed — Pro depends on OSS now — so v1.10.0 is the first release with a
+    # universal macOS binary, and this block should point at it then.
+    #
+    # Building from the source tarball is NOT an option meanwhile: that
+    # archive is served by github.com and is equally private. A formula that
+    # cannot fetch is worse than one that says why.
+    odie <<~EOS
+      No macOS build of toowl is published yet.
+
+      The macOS binary ships with v1.10.0. On Linux, toowl installs today:
+        curl -fsSL https://toowl.dev/install.sh | sh
+    EOS
+  end
+
   on_linux do
     on_arm do
-      url "https://github.com/1martianway/toowl/releases/download/v#{version}/toowl-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "89e1f4fbef54239b22c271dd4a8d3c625133adc5039fc7c8349961b23cfa9e52"
+      url "https://dl.toowl.dev/v1/toowl/download/v#{version}/toowl-aarch64-unknown-linux-gnu.tar.gz"
+      sha256 "303446b773498a1d8445a5497d051fb53c2ebc1b3ba5765c10193e6e05def4c5"
     end
     on_intel do
-      url "https://github.com/1martianway/toowl/releases/download/v#{version}/toowl-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "0b17ac1a4ac141f56072773292120af8ddc97eceb611d5fe2a5031aea9ddd0c6"
+      url "https://dl.toowl.dev/v1/toowl/download/v#{version}/toowl-x86_64-unknown-linux-gnu.tar.gz"
+      sha256 "d5c0a9b7a1fb640993797146d7aeac98dede9e7ca155d17dc8eaefeeeb17c6e7"
     end
   end
 
   def install
+    # macOS never reaches here — on_macos odies above, because no macOS
+    # artifact exists yet and the source tarball is private. When v1.10.0
+    # publishes toowl-universal-apple-darwin.tar.gz, replace that odie with a
+    # url/sha256 pair and this stays a plain bin.install for both platforms.
     bin.install "toowl"
   end
 
@@ -46,8 +77,8 @@ class Toowl < Formula
         # any platform
         npm install -g @anthropic/claude
 
-      Then open the Perch with Cmd+B (macOS) or Ctrl+B (Linux/Windows) —
-      your Claude Code sessions in the current directory show up there.
+      Then open the Perch with Ctrl+Shift+B (all platforms) — your
+      Claude Code sessions in the current directory show up there.
 
       Docs:   https://toowl.dev
       Issues: https://github.com/1martianway/toowl/issues
