@@ -2,7 +2,12 @@ class Toowl < Formula
   desc "GPU-accelerated terminal with Claude Code integration (the Claude Feather)"
   homepage "https://toowl.dev"
   version "1.11.4"
-  license "Apache-2.0"
+  # Proprietary, held by 1 Martian Way Industries Private Limited. There is no
+  # SPDX identifier for a bespoke licence, and :cannot_represent is what
+  # Homebrew provides for exactly that case. This said "Apache-2.0" until the
+  # relicense (toowl#49); leaving it would have been a public claim that
+  # anyone may redistribute the binaries this formula installs.
+  license :cannot_represent
 
   # Linux ships prebuilt binaries from .github/workflows/release.yml. Each
   # release uploads:
