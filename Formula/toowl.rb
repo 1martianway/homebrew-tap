@@ -1,13 +1,8 @@
 class Toowl < Formula
   desc "GPU-accelerated terminal with Claude Code integration (the Claude Feather)"
   homepage "https://toowl.dev"
-  version "1.11.4"
-  # Proprietary, held by 1 Martian Way Industries Private Limited. There is no
-  # SPDX identifier for a bespoke licence, and :cannot_represent is what
-  # Homebrew provides for exactly that case. This said "Apache-2.0" until the
-  # relicense (toowl#49); leaving it would have been a public claim that
-  # anyone may redistribute the binaries this formula installs.
-  license :cannot_represent
+  version "1.11.16"
+  license "Apache-2.0"
 
   # Linux ships prebuilt binaries from .github/workflows/release.yml. Each
   # release uploads:
@@ -51,11 +46,11 @@ class Toowl < Formula
   on_linux do
     on_arm do
       url "https://dl.toowl.dev/v1/toowl/download/v#{version}/toowl-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "303446b773498a1d8445a5497d051fb53c2ebc1b3ba5765c10193e6e05def4c5"
+      sha256 "56fbde44c149fd480848804a5b74e23aecc0117c1de9f9b4d581fe5f1fbc3acb"
     end
     on_intel do
       url "https://dl.toowl.dev/v1/toowl/download/v#{version}/toowl-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "d5c0a9b7a1fb640993797146d7aeac98dede9e7ca155d17dc8eaefeeeb17c6e7"
+      sha256 "453f4e42928ac82b9c1a26cdfcdf55736babd6ce59dd05739f062c88a1267699"
     end
   end
 
