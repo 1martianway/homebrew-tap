@@ -1,7 +1,7 @@
 class Toowl < Formula
   desc "GPU-accelerated terminal with Claude Code integration (the Claude Feather)"
   homepage "https://toowl.dev"
-  version "1.12.16"
+  version "1.12.17"
   license :cannot_represent
 
   # Linux ships prebuilt binaries from .github/workflows/release.yml. Each
@@ -46,11 +46,11 @@ class Toowl < Formula
   on_linux do
     on_arm do
       url "https://dl.toowl.dev/v1/toowl/download/v#{version}/toowl-aarch64-unknown-linux-gnu.tar.gz"
-      sha256 "37d492766e1eaf40ff4b347c1bdb42e39079ba85903bd7da2762d38c49615e55"
+      sha256 "d0e1e677969e52d42d280193a497116b55057c4aa62b58beb7a55002f93ef678"
     end
     on_intel do
       url "https://dl.toowl.dev/v1/toowl/download/v#{version}/toowl-x86_64-unknown-linux-gnu.tar.gz"
-      sha256 "5e90df7f9ee43674a2535b5a94438a9ba9a3d0ca0b09612c4aaaefbc58ce6eeb"
+      sha256 "776d878605d984bb09217ff7c6ee89f26eb0f5f82a79e7c09d5209c31d95ac48"
     end
   end
 
